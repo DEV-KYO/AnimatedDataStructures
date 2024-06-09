@@ -1,0 +1,26 @@
+# ninja log v6
+34	95	7395458727311887	CMakeFiles/AnimatedDataStructures.dir/KeyboardShortcuts/KeyboardShortcuts.cpp.obj	91007888f845a8f1
+71	572	7395458727679115	CMakeFiles/AnimatedDataStructures.dir/Drawables/TextBox/Cursor.cpp.obj	279eca9a7bbce1e6
+24	285	7395458727216714	CMakeFiles/AnimatedDataStructures.dir/States/States.cpp.obj	5412c2594ee2df8a
+42	473	7395458727393339	CMakeFiles/AnimatedDataStructures.dir/GUIComponents/snapshot/Snapshot.cpp.obj	77271366dff74570
+46	527	7395458727423340	CMakeFiles/AnimatedDataStructures.dir/Font/FontManager.cpp.obj	1612c23721992e74
+28	554	7395458727246764	CMakeFiles/AnimatedDataStructures.dir/MouseEvents/MouseEvents.cpp.obj	f415f45ca299fc24
+66	609	7395458727628436	CMakeFiles/AnimatedDataStructures.dir/Drawables/TextBox/Label.cpp.obj	c177de527f1ecb5d
+17	350	7396054433934933	CMakeFiles/AnimatedDataStructures.dir/Drawables/SquareText/SquareText.cpp.obj	5c8df1c6803a84c6
+49	624	7395458727458212	CMakeFiles/AnimatedDataStructures.dir/Drawables/Arrowshape/Arrowshape.cpp.obj	c8cb25ac10ad0676
+39	697	7395458727353350	CMakeFiles/AnimatedDataStructures.dir/History/History.cpp.obj	39ae1fc4365020ce
+62	706	7395458727588456	CMakeFiles/AnimatedDataStructures.dir/Drawables/TextBox/LetterObject.cpp.obj	60a01144c1e58189
+30	725	7395458727266758	CMakeFiles/AnimatedDataStructures.dir/LinkedList/AnimatedLinkedList.cpp.obj	cfd702b89b9be1c8
+53	727	7395458727503335	CMakeFiles/AnimatedDataStructures.dir/Drawables/NodeShape/NodeShape.cpp.obj	acb14a9147113c7c
+13	809	7396648870346300	CMakeFiles/AnimatedDataStructures.dir/Application.cpp.obj	837aa476ce2347ea
+6	797	7396648870276292	CMakeFiles/AnimatedDataStructures.dir/main.cpp.obj	201e245917cff79d
+10	249	7396710698364872	build.ninja	c02c1a9bf66f5d30
+24	896	7396503065888994	CMakeFiles/AnimatedDataStructures.dir/SortingAlgorithms/AnimatedSortAlg.cpp.obj	bc73c8fc9b672900
+10	902	7396648870316299	CMakeFiles/AnimatedDataStructures.dir/System.cpp.obj	ac3a9b8a1c6b3177
+6	651	7396439440404565	CMakeFiles/AnimatedDataStructures.dir/Drawables/TextBox/TextBox.cpp.obj	26c757a9560c984c
+533	913	7396666016112483	AnimatedDataStructures.exe	f7cb7a08028b5e33
+24	279	7396549561804686	CMakeFiles/AnimatedDataStructures.dir/Trees/BST.cpp.obj	35ec00b1f7fa9d4d
+15	532	7396666010932530	CMakeFiles/AnimatedDataStructures.dir/Trees/AnimateTrees.cpp.obj	fbeb88e354161d1a
+28	377	7396469676101387	CMakeFiles/AnimatedDataStructures.dir/Drawables/CircleText/CircleText.cpp.obj	755d026b505d09ad
+31	299	7396549561879766	CMakeFiles/AnimatedDataStructures.dir/Trees/AVL.cpp.obj	d5311f9b91cbe20a
+20	129	7396648870411417	CMakeFiles/AnimatedDataStructures.dir/Trees/Heap.cpp.obj	fa831856461ac4a1
