@@ -12,6 +12,11 @@ AnimateTrees::AnimateTrees() {
 
     root = nullptr;
     data = std::vector<std::string>();
+    view.setCenter({WINDOW_CENTER.x, 10});
+
+    // Set the new size of the view
+    view.setSize(WINDOW_SIZE);
+
 }
 
 AnimateTrees::AnimateTrees(Node<CircleText>* root) {
@@ -54,8 +59,32 @@ void AnimateTrees::update() {
     setPosition();
 }
 
+void AnimateTrees::eventHandler(sf::RenderWindow& window, sf::Event& event) {
+    // Set the center of the view to the position of the mouse cursor
+    if (event.type == sf::Event::MouseWheelScrolled) {
+        if (event.mouseWheelScroll.delta > 0) {
+            zoom(0.9f);
+        } else {
+            zoom(1.1f);
+        }
+    }
+}
+
+void AnimateTrees::zoom(float factor) {
+    // Calculate the aspect ratio of the window
+    float aspectRatio = WINDOW_SIZE.x / WINDOW_SIZE.y;
+
+    // Calculate the new width and height of the view
+    float newWidth = view.getSize().x * factor;
+    float newHeight = newWidth / aspectRatio;
+
+    // Set the new size of the view
+    view.setSize(newWidth, newHeight);
+}
+
 void AnimateTrees::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     //draw every node in the tree
+    target.setView(view);
     drawNode(target, states, root);
 }
 

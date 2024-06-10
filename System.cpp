@@ -10,11 +10,17 @@ System::System() : moveFactor(1.0f) {
     // Default constructor
     textBox = TextBox();
     list = AnimatedLinkedList();
+    sortAlg = AnimatedSortAlg();
+    tree = AnimateTrees();
+    hashtable = AnimatedHashtable();
     inputMode = EnumInputMode::TREES;
 
     listFunction = static_cast<EnumListFunctions>(static_cast<int>(EnumListFunctions::FIRST) + 1);
     sortFunction = static_cast<EnumSortFunctions>(static_cast<int>(EnumSortFunctions::FIRST) + 1);
     treeType = static_cast<EnumTree>(static_cast<int>(EnumTree::FIRST) + 1);
+    hashFunction = static_cast<EnumHashtable>(static_cast<int>(EnumHashtable::FIRST) + 1);
+
+
 
     std::cout << "SYSTEM INITIALIZED"   << std::endl
               << "~~~~~~~~~~~~~~~~~~"   << std::endl;
@@ -47,13 +53,12 @@ void System::Event(sf::RenderWindow& window, sf::Event& event) {
             break;
 
         case sf::Event::MouseWheelScrolled:
-            if(event.mouseWheelScroll.delta > 0) {
-                list.zoom(1.1f);
-                tree.zoomIn();
-            } else if(event.mouseWheelScroll.delta < 0) {
-                list.zoom(0.9f);
-                tree.zoomOut();
-            }
+
+            list.eventHandler(window, event);
+            sortAlg.eventHandler(window, event);
+            hashtable.eventHandler(window, event);
+            tree.eventHandler(window, event);
+
             break;
 
         //Key Pressed
@@ -89,6 +94,9 @@ void System::Update() {
         case EnumInputMode::TREES:
             tree.update();
             break;
+        case EnumInputMode::HASHTABLE:
+            hashtable.update();
+            break;
         default:
             std::cerr << "NO DATASTRUCTURE TO UPDATE" << std::endl;
     }
@@ -97,25 +105,27 @@ void System::Update() {
 
 void System::Draw(sf::RenderWindow& window) {
     // Draw the system
-    window.draw(textBox);
     switch (inputMode) {
         case EnumInputMode::LINKEDLIST:
             // Draw the linked list
                 list.draw(window, sf::RenderStates::Default);
-        break;
+            break;
         case EnumInputMode::SORTING:
             // Draw the sorting algorithm
                 sortAlg.draw(window, sf::RenderStates::Default);
-        break;
+            break;
         case EnumInputMode::TREES:
             tree.draw(window, sf::RenderStates::Default);
-        break;
-
-
+            break;
+        case EnumInputMode::HASHTABLE:
+            hashtable.draw(window, sf::RenderStates::Default);
+            break;
 
         default:
             std::cerr << "NO DATASTRUCTURE TO DISPLAY" << std::endl;
     }
+    window.setView(window.getDefaultView());
+    window.draw(textBox);
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -126,7 +136,25 @@ void System::Draw(sf::RenderWindow& window) {
 
 //FUNCTIONS TO HANDLE KEY PRESSES
 
+void System::handleMouseWheelScrolled(sf::RenderWindow &window, sf::Event &event) {
 
+    switch(inputMode) {
+        case EnumInputMode::LINKEDLIST:
+            list.eventHandler(window, event);
+            break;
+        case EnumInputMode::SORTING:
+            sortAlg.eventHandler(window, event);
+            break;
+        case EnumInputMode::TREES:
+            tree.eventHandler(window, event);
+            break;
+        case EnumInputMode::HASHTABLE:
+            hashtable.eventHandler(window, event);
+            break;
+        default:
+            std::cerr << "NO DATASTRUCTURE TO ZOOM" << std::endl;
+    }
+}
 
 void System::handleKey(sf::RenderWindow &window, sf::Event &event) {
     switch(event.key.code) {
@@ -197,6 +225,9 @@ void System::handleTab() {
         case EnumInputMode::TREES:
             std::cout << "~" << enumToString(treeType) << std::endl;
             break;
+        case EnumInputMode::HASHTABLE:
+            std::cout << "~" << enumToString(hashFunction) << std::endl;
+            break;
         default:
             std::cerr << "UNKNOWN INPUTMODE" << std::endl;
     }
@@ -206,6 +237,7 @@ void System::handleUp() {
     int prevList = static_cast<int>(listFunction) - 1;
     int prevSort = static_cast<int>(sortFunction) - 1;
     int prevTree = static_cast<int>(treeType) - 1;
+    int prevHash = static_cast<int>(hashFunction) - 1;
 
     switch (inputMode) {
         case EnumInputMode::LINKEDLIST:
@@ -234,6 +266,14 @@ void System::handleUp() {
             std::cout << "~" << enumToString(treeType) << std::endl;
             break;
 
+        case EnumInputMode::HASHTABLE:
+            if(prevHash == static_cast<int>(EnumHashtable::FIRST)) {
+                prevHash = static_cast<int>(EnumHashtable::LAST) - 1;
+            }
+            hashFunction = static_cast<EnumHashtable>(prevHash);
+            std::cout << "~" << enumToString(hashFunction) << std::endl;
+            break;
+
         default:
             std::cerr << "Unknown InputMode" << std::endl;
     }
@@ -243,6 +283,7 @@ void System::handleDown() {
     int nextList = static_cast<int>(listFunction) + 1;
     int nextSort = static_cast<int>(sortFunction) + 1;
     int nextTree = static_cast<int>(treeType) + 1;
+    int nextHash = static_cast<int>(hashFunction) + 1;
 
     switch(inputMode) {
         case EnumInputMode::LINKEDLIST:
@@ -267,6 +308,14 @@ void System::handleDown() {
             }
             treeType = static_cast<EnumTree>(nextTree);
             std::cout << "~" << enumToString(treeType) << std::endl;
+            break;
+
+        case EnumInputMode::HASHTABLE:
+            if(nextHash == static_cast<int>(EnumHashtable::LAST)) {
+                nextHash = static_cast<int>(EnumHashtable::FIRST) + 1;
+            }
+            hashFunction = static_cast<EnumHashtable>(nextHash);
+            std::cout << "~" << enumToString(hashFunction) << std::endl;
             break;
 
         default:
@@ -378,6 +427,25 @@ void System::handleReturn(sf::RenderWindow &window) {
             }
             std::cout << "TREE: " << enumToString(treeType) << std::endl;
             break;
+
+        case EnumInputMode::HASHTABLE:
+            switch(hashFunction) {
+                case EnumHashtable::PUSH_BACK:
+                    std::cout << "PUSHING BACK" << std::endl;
+                    if(!data.empty() && data != " ") {
+
+                        hashtable.pushData(data);
+                    }
+                    break;
+                case EnumHashtable::HASH:
+                    hashtable.createHashtable();
+                    break;
+
+                default:
+                    std::cerr << "NO HASH FUNCTION SELECTED" << std::endl;
+            }
+            std::cout << "HASHTABLE: " << enumToString(hashFunction) << std::endl;
+            break;
     }
     textBox.clear();
     data = "";
@@ -401,6 +469,8 @@ std::string System::enumToString(const EnumInputMode& inputMode) {
             return "SORTING";
         case EnumInputMode::TREES:
             return "TREES";
+        case EnumInputMode::HASHTABLE:
+            return "HASHTABLE";
         default:
             return "UNKNOWN";
     }
@@ -456,6 +526,17 @@ std::string System::enumToString(const EnumTree& treeType) {
             return "PUSH_BACK";
         case EnumTree::CLEAR:
             return "CLEAR";
+        default:
+            return "UNKNOWN";
+    }
+}
+
+std::string System::enumToString(const EnumHashtable& hashFunction) {
+    switch(hashFunction) {
+        case EnumHashtable::PUSH_BACK:
+            return "PUSH_BACK";
+        case EnumHashtable::HASH:
+            return "HASH";
         default:
             return "UNKNOWN";
     }

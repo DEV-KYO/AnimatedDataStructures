@@ -16,6 +16,8 @@
 //This class will animate Quicksort and Mergesort algorithms
 class AnimatedSortAlg {
 private:
+    sf::View view;
+
     //Use Square as the shape of the array
     std::vector<SquareText> array;
     std::vector <std::string> data;
@@ -38,7 +40,9 @@ public:
 
     void update();
     void draw(sf::RenderTarget& target, sf::RenderStates states) ;
+    void eventHandler(sf::Window& window, sf::Event& event);
 
+    void zoom(float factor);
 
     void push_back(const std::string& data);
     void push_front(const std::string& data);

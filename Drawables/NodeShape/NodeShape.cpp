@@ -48,7 +48,6 @@ NodeShape::NodeShape() {
     sf::FloatRect bodyBounds = body.getLocalBounds();
     text.setPosition(bodyBounds.left + bodyBounds.width/2.0f, bodyBounds.top + bodyBounds.height/2.0f);
 
-
 }
 
 NodeShape::NodeShape(const std::string& data) : data(data), text(sf::Text(data, FontManager::getFont(EnumFonts::PIXELGEORGIA), 14)) {
@@ -137,6 +136,8 @@ NodeShape::NodeShape(const sf::Vector2f &size, const std::string& data) {
     next = Arrowshape(sf::Vector2f ({size.x, size.y}), Direction::RIGHT);
 
     prev = Arrowshape(sf::Vector2f ({size.x, size.y}), Direction::LEFT);
+
+    // numData = std::stoi(data);
 }
 
 void NodeShape::update() {
@@ -179,6 +180,10 @@ void NodeShape::headPointer() {
     prevBlock.setOutlineColor({0,0,0});
 }
 
+void NodeShape::oneWayNode() {
+    prev.rotate(180);
+}
+
 void NodeShape::move(sf::Vector2<float> offset) {
     body.move(offset);
     prev.move(offset);
@@ -198,10 +203,16 @@ void NodeShape::getLocalBounds(sf::FloatRect &rect) const {
 void NodeShape::setData(const std::string& data) {
     this->data = data;
     text.setString(data);
+    numData = std::stoi(data);
+    centerFont();
 }
 
 std::string NodeShape::getData() const {
     return data;
+}
+
+int NodeShape::getNumData() const {
+    return numData;
 }
 
 void NodeShape::setFont(EnumFonts font) {
@@ -211,5 +222,36 @@ void NodeShape::setFont(EnumFonts font) {
 
 void NodeShape::setFontSize(unsigned int size) {
     text.setCharacterSize(size);
+    centerFont();
+}
+
+void NodeShape::centerFont() {
+    sf::FloatRect textRect = text.getLocalBounds();
+    text.setOrigin(textRect.left + textRect.width/2.0f, textRect.top  + textRect.height/2.0f);
+    text.setPosition(sf::Vector2f(body.getSize().x/2.0f, body.getSize().y/2.0f));
+}
+
+bool NodeShape::operator==(const NodeShape &other) const {
+    return numData == other.getNumData();
+}
+
+bool NodeShape::operator!=(const NodeShape &other) const {
+    return numData != other.getNumData();
+}
+
+bool NodeShape::operator<(const NodeShape &other) const {
+    return numData < other.getNumData();
+}
+
+bool NodeShape::operator>(const NodeShape &other) const {
+    return numData > other.getNumData();
+}
+
+bool NodeShape::operator<=(const NodeShape &other) const {
+    return numData <= other.getNumData();
+}
+
+bool NodeShape::operator>=(const NodeShape &other) const {
+    return numData >= other.getNumData();
 }
 

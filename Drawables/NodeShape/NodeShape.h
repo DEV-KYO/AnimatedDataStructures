@@ -26,6 +26,7 @@ private:
     sf::Vector2f nodeSize;
 
     std::string data;
+    int numData = 0;
     sf::Font font;
     sf::Text text;
 
@@ -43,6 +44,7 @@ public:
     //Transformations
     void rotate(float angle);
     void headPointer();
+    void oneWayNode();
     void move(sf::Vector2<float> offset);
     void zoom(float factor);
 
@@ -53,9 +55,20 @@ public:
     void setData(const std::string& data);
     void setFont(EnumFonts font);
     void setFontSize(unsigned int size);
+    void centerFont();
 
     //Getters
     std::string getData() const;
+    int getNumData() const;
+
+    //Overloaded Operators
+    bool operator==(const NodeShape& other) const;
+    bool operator!=(const NodeShape& other) const;
+    bool operator<(const NodeShape& other) const;
+    bool operator>(const NodeShape& other) const;
+    bool operator<=(const NodeShape& other) const;
+    bool operator>=(const NodeShape& other) const;
+
 };
 
 

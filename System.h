@@ -10,6 +10,7 @@
 #include "Drawables/EnumDrawables/EnumDrawables.h"
 #include "Drawables/NodeShape/NodeShape.h"
 #include "Drawables/TextBox/TextBox.h"
+#include "Hashtable/AnimatedHashtable.h"
 #include "Hashtable/EnumHashtable.h"
 
 #include "LinkedList/AnimatedLinkedList.h"
@@ -34,12 +35,10 @@ private:
     EnumTree treeType; //type of tree
     EnumHashtable hashFunction; //hash function
 
-
-    //FOR TESTING//
-    // NodeShape testNode; //node to test
-    AnimatedLinkedList list; //linked list to test
-    AnimatedSortAlg sortAlg; //sorting algorithm to test
-    AnimateTrees tree; //trees to test
+    AnimatedLinkedList list;
+    AnimatedSortAlg sortAlg;
+    AnimateTrees tree;
+    AnimatedHashtable hashtable;
 
 public:
     System();
@@ -47,7 +46,7 @@ public:
     void Update(); //function to update the system
     void Draw(sf::RenderWindow& window); //function to draw the system
 
-
+    void handleMouseWheelScrolled(sf::RenderWindow &window, sf::Event& event); //handle the mouse wheel scrolled
     void handleKey(sf::RenderWindow &window, sf::Event& event); //handle the key Pressed
     void handleTab(); //handle the tab key
     void handleUp(); //handle the up and down keys
@@ -60,6 +59,7 @@ public:
     static std::string enumToString(const EnumInputMode& inputMode);
     static std::string enumToString(const EnumSortFunctions& sortFunction);
     static std::string enumToString(const EnumTree& treeType);
+    static std::string enumToString(const EnumHashtable& hashFunction);
 
 
 };

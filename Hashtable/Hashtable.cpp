@@ -7,58 +7,55 @@
 
 #include "Hashtable.h"
 
-template<typename K, typename V>
-Hashtable<K, V>::Hashtable(int capacity) {
+template <typename T>
+Hashtable<T>::Hashtable(int capacity) {
     this->capacity = capacity;
-    table = new HashNode<K, V>*[capacity];
-    for (int i = 0; i < capacity; i++) {
-        table[i] = nullptr;
-    }
+    table = new std::vector<T>[capacity];
 }
 
-template<typename K, typename V>
-Hashtable<K, V>::~Hashtable() {
-    for (int i = 0; i < capacity; i++) {
-        HashNode<K, V>* entry = table[i];
-        while (entry != nullptr) {
-            HashNode<K, V>* prev = entry;
-            entry = entry->next;
-            delete prev;
-        }
-    }
+template <typename T>
+Hashtable<T>::~Hashtable() {
     delete[] table;
 }
 
-template<typename K, typename V>
-int Hashtable<K, V>::hashFunction(K key) {
+template <typename T>
+int Hashtable<T>::hash(T key) {
     return key % capacity;
 }
 
-template<typename K, typename V>
-void Hashtable<K, V>::insert(K key, V value) {
-    int index = hashFunction(key);
-    HashNode<K, V>* entry = table[index];
-    if (entry == nullptr) {
-        table[index] = new HashNode<K, V>(key, value);
-    } else {
-        while (entry->next != nullptr) {
-            entry = entry->next;
+template <typename T>
+void Hashtable<T>::insert(T key) {
+    int index = hash(key);
+    table[index].push_back(key);
+}
+
+template <typename T>
+void Hashtable<T>::remove(T key) {
+    int index = hash(key);
+    for (int i = 0; i < table[index].size(); i++) {
+        if (table[index][i] == key) {
+            table[index].erase(table[index].begin() + i);
+            return;
         }
-        entry->next = new HashNode<K, V>(key, value);
     }
 }
 
-template<typename K, typename V>
-V Hashtable<K, V>::get(K key) {
-    int index = hashFunction(key);
-    HashNode<K, V>* entry = table[index];
-    while (entry != nullptr) {
-        if (entry->key == key) {
-            return entry->value;
+template <typename T>
+bool Hashtable<T>::search(T key) {
+    int index = hash(key);
+    for (int i = 0; i < table[index].size(); i++) {
+        if (table[index][i] == key) {
+            return true;
         }
-        entry = entry->next;
     }
-    return 0;
+    return false;
+}
+
+template <typename T>
+void Hashtable<T>::clear() {
+    for (int i = 0; i < capacity; i++) {
+        table[i].clear();
+    }
 }
 
 

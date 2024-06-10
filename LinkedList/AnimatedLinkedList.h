@@ -9,6 +9,7 @@
 
 class AnimatedLinkedList : public NodeShape {
 private:
+    sf::View view; //view of the window
     std::list<NodeShape> list; //list of nodes
     sf::Vector2f center; //center of the window
 
@@ -29,7 +30,7 @@ public:
 
     void update(); //function to update the linked list
     void draw(sf::RenderWindow& target, sf::RenderStates states) const; //function to draw the linked list
-
+    void zoom(float factor); //function to zoom the linked list
     void eventHandler(sf::RenderWindow& window, sf::Event& event); //function to handle events
 };
 

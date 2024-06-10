@@ -94,6 +94,29 @@ std::string SquareText::getData() const {
     return data;
 }
 
+bool SquareText::operator==(const SquareText& other) const {
+    return data == other.data;
+}
+
+bool SquareText::operator!=(const SquareText& other) const {
+    return data != other.data;
+}
+
+bool SquareText::operator<(const SquareText& other) const {
+    return data < other.data;
+}
+
+bool SquareText::operator>(const SquareText& other) const {
+    return data > other.data;
+}
+
+bool SquareText::operator<=(const SquareText& other) const {
+    return data <= other.data;
+}
+
+bool SquareText::operator>=(const SquareText& other) const {
+    return data >= other.data;
+}
 
 
 

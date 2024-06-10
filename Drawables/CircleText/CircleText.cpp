@@ -70,6 +70,7 @@ void CircleText::setData(const std::string& data) {
     number.setString(data);
     sf::FloatRect textRect = number.getLocalBounds();
     number.setOrigin(textRect.left + textRect.width/2.0f, textRect.top + textRect.height/2.0f);
+    num = std::stoi(data);
 }
 
 void CircleText::setFont(const sf::Font& font) {

@@ -4,24 +4,29 @@
 
 #ifndef HASHTABLE_H
 #define HASHTABLE_H
-#include "HashNode.h"
+#include <vector>
 
-template <typename K, typename V>
+template <typename T>
 class Hashtable {
 private:
-    HashNode<K, V>** table;
+    std::vector<T>* table;
     int capacity;
 
-    int hashFunction(K key);
+    int hash(T key);
+
 public:
     Hashtable(int capacity);
     ~Hashtable();
+    void insert(T key);
+    void remove(T key);
+    bool search(T key);
+    void clear();
 
-    void insert(K key, V value);
-    V get(K key);
+    // Getters
+    int getCapacity() { return capacity; }
+    std::vector<T>* getTable() { return table; }
 
 };
-
 #include "Hashtable.cpp"
 
 #endif //HASHTABLE_H

@@ -66,7 +66,6 @@ add_executable(AnimatedDataStructures
         Trees/Heap.cpp
         Trees/Heap.h
         Hashtable/Hashtable.h
-        Hashtable/HashNode.h
         Hashtable/Hashtable.cpp
         Hashtable/AnimatedHashtable.cpp
         Hashtable/AnimatedHashtable.h

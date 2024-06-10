@@ -14,6 +14,8 @@
 AnimatedSortAlg::AnimatedSortAlg() {
     array = std::vector<SquareText>();
     data = std::vector<std::string>();
+    view.setCenter(WINDOW_CENTER);
+    view.setSize(WINDOW_SIZE);
 }
 
 AnimatedSortAlg::AnimatedSortAlg(std::vector<std::string> vector, sf::Vector2f dimmensions) {
@@ -57,9 +59,35 @@ void AnimatedSortAlg::update() {
 }
 
 void AnimatedSortAlg::draw(sf::RenderTarget& target, sf::RenderStates states) {
+    target.setView(view);
     for(auto& square : array) {
         square.draw(target, states);
     }
+}
+
+void AnimatedSortAlg::eventHandler(sf::Window& window, sf::Event& event) {
+
+    // Set the center of the view to the center of the window
+    view.setCenter(WINDOW_CENTER);
+    if (event.type == sf::Event::MouseWheelScrolled) {
+        if (event.mouseWheelScroll.delta > 0) {
+            zoom(0.9);
+        } else {
+            zoom(1.1);
+        }
+    }
+}
+
+void AnimatedSortAlg::zoom(float factor) {
+    // Calculate the aspect ratio of the window
+    float aspectRatio = WINDOW_SIZE.x / WINDOW_SIZE.y;
+
+    // Calculate the new width and height of the view
+    float newWidth = view.getSize().x * factor;
+    float newHeight = newWidth / aspectRatio;
+
+    // Set the new size of the view
+    view.setSize(newWidth, newHeight);
 }
 
 void AnimatedSortAlg::setPosition(const sf::Vector2f& center) {

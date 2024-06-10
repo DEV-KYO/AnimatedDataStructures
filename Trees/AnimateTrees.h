@@ -5,6 +5,9 @@
 #ifndef ANIMATETREES_H
 #define ANIMATETREES_H
 #include <vector>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/View.hpp>
+#include <SFML/Window/Event.hpp>
 
 #include "AVL.h"
 #include "../Drawables/CircleText/CircleText.h"
@@ -15,9 +18,9 @@
 #include "../Settings.h"
 
 class AnimateTrees {
-    // std::vector<CircleText> tree;
+private:
+    sf::View view;
     std::vector<std::string> data;
-    // std::vector<int> inOrderData;
     float zoomFactor = 1.0f;
 
     Node<CircleText>* root;
@@ -40,6 +43,10 @@ public:
 
     void update();
     void updateNode(Node<CircleText>* node);
+
+    void eventHandler(sf::RenderWindow& window, sf::Event& event);
+
+    void zoom(float factor);
 
     void zoomIn();
     void zoomOut();

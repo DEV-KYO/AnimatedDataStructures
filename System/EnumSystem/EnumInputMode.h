@@ -10,7 +10,7 @@ enum class EnumInputMode {
     LINKEDLIST,
     SORTING,
     TREES,
-    Hashtable,
+    HASHTABLE,
     LAST
 };
 

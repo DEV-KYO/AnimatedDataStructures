@@ -55,6 +55,14 @@ public:
     sf::FloatRect getLocalBounds() const;
     std::string getData() const;
 
+    //Overloaded Operators
+    bool operator==(const SquareText& other) const;
+    bool operator!=(const SquareText& other) const;
+    bool operator<(const SquareText& other) const;
+    bool operator>(const SquareText& other) const;
+    bool operator<=(const SquareText& other) const;
+    bool operator>=(const SquareText& other) const;
+
 
 };
 
