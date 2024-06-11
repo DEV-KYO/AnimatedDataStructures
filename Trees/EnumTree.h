@@ -8,11 +8,11 @@
 
 enum class EnumTree {
     FIRST,
-    PUSH_BACK,
+
     BST,
     AVL,
     HEAP,
-    CLEAR,
+
     LAST
 };
 #endif //ENUMTREETYPE_H

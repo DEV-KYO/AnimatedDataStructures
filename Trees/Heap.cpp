@@ -14,6 +14,8 @@ Heap<T>::Heap() {
 
 }
 
+
+
 template<typename T>
 Heap<T>::Heap(Node<T>* root) {
     this->root = root;
@@ -78,7 +80,18 @@ Node<T>* Heap<T>::getRoot() {
 }
 
 template<typename T>
+void Heap<T>::clear(Node<T>* node) {
+    if (node == nullptr) {
+        return;
+    }
+    clear(node->left);
+    clear(node->right);
+    delete node;
+}
+
+template<typename T>
 void Heap<T>::clear() {
+    clear(root);
     root = nullptr;
     size = 0;
     nodes.clear();

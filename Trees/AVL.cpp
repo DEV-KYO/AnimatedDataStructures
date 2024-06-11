@@ -9,6 +9,11 @@
 template <typename T>
 AVL<T>::AVL() : root(nullptr), size(0) {}
 
+// template <typename T>
+// AVL<T>::~AVL() {
+//     clear();
+// }
+
 template <typename T>
 void AVL<T>::inOrder(Node<T>* node, void(*f)(T&param)) {
     if (node == nullptr) return;
@@ -171,18 +176,14 @@ void AVL<T>::balance(Node<T>*& node) {
 
 template <typename T>
 void AVL<T>::remove(Node<T>*& node, T data) {
-    if (node == nullptr) return;
-
-    if (data < node->data) {
+    if (node == nullptr) {
+        return;
+    } else if (data < node->data) {
         remove(node->left, data);
     } else if (data > node->data) {
         remove(node->right, data);
     } else {
-        if (node->left == nullptr && node->right == nullptr) {
-            delete node;
-            node = nullptr;
-            size--;
-        } else if (node->left == nullptr) {
+        if (node->left == nullptr) {
             Node<T>* temp = node;
             node = node->right;
             delete temp;
@@ -193,14 +194,19 @@ void AVL<T>::remove(Node<T>*& node, T data) {
             delete temp;
             size--;
         } else {
-            Node<T>* temp = node->right;
-            while (temp->left != nullptr) {
-                temp = temp->left;
-            }
+            Node<T>* temp = findMin(node->right);
             node->data = temp->data;
             remove(node->right, temp->data);
         }
     }
+}
+
+template <typename T>
+Node<T>* AVL<T>::findMin(Node<T>* node) {
+    while (node->left != nullptr) {
+        node = node->left;
+    }
+    return node;
 }
 
 template <typename T>
@@ -270,11 +276,26 @@ void AVL<T>::depthOrder(void(*f)(T&param)) {
     }
 }
 
-template <typename T>
-void AVL<T>::clear() {
-    while (root != nullptr) {
-        remove(root, root->data);
+template<typename T>
+void AVL<T>::clear(Node<T>* node) {
+    if(node == nullptr)
+        return;
+    if(node->left != nullptr) {
+        clear(node->left);
+        node->left = nullptr;
     }
+    if(node->right != nullptr) {
+        clear(node->right);
+        node->right = nullptr;
+    }
+    delete node;
+}
+
+template<typename T>
+void AVL<T>::clear() {
+    clear(root);
+    root = nullptr;
+    size = 0;
 }
 
 template <typename T>

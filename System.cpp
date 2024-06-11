@@ -13,14 +13,22 @@ System::System() : moveFactor(1.0f) {
     sortAlg = AnimatedSortAlg();
     tree = AnimateTrees();
     hashtable = AnimatedHashtable();
-    inputMode = EnumInputMode::TREES;
+
+    inputMode = EnumInputMode::LINKEDLIST;
 
     listFunction = static_cast<EnumListFunctions>(static_cast<int>(EnumListFunctions::FIRST) + 1);
     sortFunction = static_cast<EnumSortFunctions>(static_cast<int>(EnumSortFunctions::FIRST) + 1);
-    treeType = static_cast<EnumTree>(static_cast<int>(EnumTree::FIRST) + 1);
+    treeFunction = static_cast<EnumTreeFunctions>(static_cast<int>(EnumTreeFunctions::FIRST) + 1);
     hashFunction = static_cast<EnumHashtable>(static_cast<int>(EnumHashtable::FIRST) + 1);
 
+    treeType = static_cast<EnumTree>(static_cast<int>(EnumTree::FIRST) + 1);
 
+    inputModeText.setFont(FontManager::getFont(PIXELGEORGIA));
+    inputModeText.setCharacterSize(24);
+    inputModeText.setFillColor(sf::Color::White);
+    inputModeText.setString("Welcome to the Data Structures Visualizer");
+
+    inputModeText.setPosition(10, WINDOW_SIZE.y - 30);
 
     std::cout << "SYSTEM INITIALIZED"   << std::endl
               << "~~~~~~~~~~~~~~~~~~"   << std::endl;
@@ -49,7 +57,11 @@ void System::Event(sf::RenderWindow& window, sf::Event& event) {
             std::cout << "Mouse Button Pressed" << std::endl;
 
             //This calls the addEventHandler function in the TextBox class
-            textBox.addEventHandler(window, event);
+            // textBox.addEventHandler(window, event);
+
+            tree.eventHandler(window,event);
+            std::cout << "TREE: " << enumToString(tree.getType()) << std::endl;
+
             break;
 
         case sf::Event::MouseWheelScrolled:
@@ -86,15 +98,19 @@ void System::Update() {
     textBox.update();
     switch(inputMode) {
         case EnumInputMode::LINKEDLIST:
+            inputModeText.setString(enumToString(listFunction));
             list.update();
             break;
         case EnumInputMode::SORTING:
+            inputModeText.setString(enumToString(sortFunction));
             sortAlg.update();
             break;
         case EnumInputMode::TREES:
+            inputModeText.setString(enumToString(treeFunction));
             tree.update();
             break;
         case EnumInputMode::HASHTABLE:
+            inputModeText.setString(enumToString(hashFunction));
             hashtable.update();
             break;
         default:
@@ -126,6 +142,7 @@ void System::Draw(sf::RenderWindow& window) {
     }
     window.setView(window.getDefaultView());
     window.draw(textBox);
+    window.draw(inputModeText);
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -177,7 +194,7 @@ void System::handleKey(sf::RenderWindow &window, sf::Event &event) {
             break;
 
         case sf::Keyboard::Return:
-            handleReturn(window);
+            handleReturn(window, event);
             break;
 
         //Backspace key
@@ -236,7 +253,7 @@ void System::handleTab() {
 void System::handleUp() {
     int prevList = static_cast<int>(listFunction) - 1;
     int prevSort = static_cast<int>(sortFunction) - 1;
-    int prevTree = static_cast<int>(treeType) - 1;
+    int prevTree = static_cast<int>(treeFunction) - 1;
     int prevHash = static_cast<int>(hashFunction) - 1;
 
     switch (inputMode) {
@@ -259,11 +276,11 @@ void System::handleUp() {
             break;
 
         case EnumInputMode::TREES:
-            if(prevTree == static_cast<int>(EnumTree::FIRST)) {
-                prevTree = static_cast<int>(EnumTree::LAST) - 1;
+            if(prevTree == static_cast<int>(EnumTreeFunctions::FIRST)) {
+                prevTree = static_cast<int>(EnumTreeFunctions::LAST) - 1;
             }
-            treeType = static_cast<EnumTree>(prevTree);
-            std::cout << "~" << enumToString(treeType) << std::endl;
+            treeFunction = static_cast<EnumTreeFunctions>(prevTree);
+            std::cout << "~" << enumToString(treeFunction) << std::endl;
             break;
 
         case EnumInputMode::HASHTABLE:
@@ -282,7 +299,7 @@ void System::handleUp() {
 void System::handleDown() {
     int nextList = static_cast<int>(listFunction) + 1;
     int nextSort = static_cast<int>(sortFunction) + 1;
-    int nextTree = static_cast<int>(treeType) + 1;
+    int nextTree = static_cast<int>(treeFunction) + 1;
     int nextHash = static_cast<int>(hashFunction) + 1;
 
     switch(inputMode) {
@@ -303,11 +320,12 @@ void System::handleDown() {
             break;
 
         case EnumInputMode::TREES:
-            if(nextTree == static_cast<int>(EnumTree::LAST)) {
-                nextTree = static_cast<int>(EnumTree::FIRST) + 1;
+            if(nextTree == static_cast<int>(EnumTreeFunctions::LAST)) {
+                nextTree = static_cast<int>(EnumTreeFunctions::FIRST) + 1;
             }
-            treeType = static_cast<EnumTree>(nextTree);
-            std::cout << "~" << enumToString(treeType) << std::endl;
+            treeFunction = static_cast<EnumTreeFunctions>(nextTree);
+
+            std::cout << "~" << enumToString(treeFunction) << std::endl;
             break;
 
         case EnumInputMode::HASHTABLE:
@@ -323,8 +341,7 @@ void System::handleDown() {
     }
 }
 
-
-void System::handleReturn(sf::RenderWindow &window) {
+void System::handleReturn(sf::RenderWindow &window, sf::Event &event) {
     // Handle the return key
     data = textBox.getStringOfLetters();
     switch(inputMode) {
@@ -398,34 +415,24 @@ void System::handleReturn(sf::RenderWindow &window) {
 
         case EnumInputMode::TREES:
             // Handle the tree
-            switch(treeType) {
-                case EnumTree::BST:
-                    tree.selectTree(treeType);
-                    break;
-
-                case EnumTree::AVL:
-                    tree.selectTree(treeType);
-                    break;
-
-                case EnumTree::HEAP:
-                    tree.selectTree(treeType);
-                    break;
-
-                case EnumTree::PUSH_BACK:
+            switch(treeFunction) {
+                case EnumTreeFunctions::PUSH_BACK:
                     if(!data.empty() && data != " ") {
                         tree.push_back(data);
                     }
                     break;
 
-                case EnumTree::CLEAR:
+                case EnumTreeFunctions::POP_BACK:
+                    tree.pop_back();
+                break;
+
+                case EnumTreeFunctions::CLEAR:
                     tree.clear();
                     break;
-
-                default:
-                    std::cerr << "NO TREE SELECTED" << std::endl;
-                break;
             }
-            std::cout << "TREE: " << enumToString(treeType) << std::endl;
+
+            tree.eventHandler(window, event);
+            std::cout << "TREE: " << enumToString(tree.getType()) << std::endl;
             break;
 
         case EnumInputMode::HASHTABLE:
@@ -436,11 +443,11 @@ void System::handleReturn(sf::RenderWindow &window) {
 
                         hashtable.pushData(data);
                     }
-                    break;
-                case EnumHashtable::HASH:
                     hashtable.createHashtable();
                     break;
-
+                case EnumHashtable::CLEAR:
+                    hashtable.clear();
+                    break;
                 default:
                     std::cerr << "NO HASH FUNCTION SELECTED" << std::endl;
             }
@@ -522,10 +529,6 @@ std::string System::enumToString(const EnumTree& treeType) {
             return "AVL";
         case EnumTree::HEAP:
             return "HEAP";
-        case EnumTree::PUSH_BACK:
-            return "PUSH_BACK";
-        case EnumTree::CLEAR:
-            return "CLEAR";
         default:
             return "UNKNOWN";
     }
@@ -535,8 +538,29 @@ std::string System::enumToString(const EnumHashtable& hashFunction) {
     switch(hashFunction) {
         case EnumHashtable::PUSH_BACK:
             return "PUSH_BACK";
-        case EnumHashtable::HASH:
-            return "HASH";
+        case EnumHashtable::CLEAR:
+            return "CLEAR";
+        default:
+            return "UNKNOWN";
+    }
+}
+
+std::string System::enumToString(const EnumTreeFunctions& treeFunction) {
+    switch(treeFunction) {
+        case EnumTreeFunctions::FIRST:
+            return "FIRST";
+
+        case EnumTreeFunctions::PUSH_BACK:
+            return "PUSH_BACK";
+        // case EnumTreeFunctions::PUSH_FRONT:
+        //     return "PUSH_FRONT";
+        case EnumTreeFunctions::POP_BACK:
+            return "POP_BACK";
+        case EnumTreeFunctions::CLEAR:
+            return "CLEAR";
+
+        case EnumTreeFunctions::LAST:
+            return "LAST";
         default:
             return "UNKNOWN";
     }

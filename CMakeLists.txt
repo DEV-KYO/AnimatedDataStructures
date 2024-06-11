@@ -70,6 +70,9 @@ add_executable(AnimatedDataStructures
         Hashtable/AnimatedHashtable.cpp
         Hashtable/AnimatedHashtable.h
         Hashtable/EnumHashtable.h
+        Trees/EnumTreeFunctions.h
+        Button.cpp
+        Button.h
 
 )
 

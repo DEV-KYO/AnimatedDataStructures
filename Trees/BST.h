@@ -15,6 +15,8 @@ template <typename T>
 class BST {
 private:
     Node<T>* root = nullptr;
+    void clear(Node<T>*& node);
+
     int _size = 0;
 
     void inOrder(Node<T>* node, void(*f)(T&param));
@@ -23,8 +25,10 @@ private:
     void insert(Node<T>*& node, T data);
     void remove(Node<T>*& node, T data);
 
+
 public:
     BST();
+    ~BST();
     void inOrder(void(*f)(T&param));
     void preOrder(void(*f)(T&param));
     void postOrder(void(*f)(T&param));

@@ -27,6 +27,8 @@ struct  Node {
         return position;
     }
 
+
+
 private:
     sf::Vector2f position;
 

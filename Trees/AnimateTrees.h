@@ -16,6 +16,9 @@
 #include "EnumTree.h"
 #include "Heap.h"
 #include "../Settings.h"
+#include "../Button.h"
+#include "../Drawables/TextBox/_LOCAL_CONSTANTS.h"
+
 
 class AnimateTrees {
 private:
@@ -28,7 +31,10 @@ private:
     BST<CircleText> bst;
     AVL<CircleText> avl;
     Heap<CircleText> heap;
-    // Heap heap;
+
+    Button BSTButton;
+    Button AVLButton;
+    Button HeapButton;
 
     int radius = 30;
 
@@ -62,6 +68,7 @@ public:
     void setRoot(Node<CircleText>* root);
 
     [[nodiscard]] Node<CircleText>* getRoot() const;
+    EnumTree getType() const;
 };
 
 

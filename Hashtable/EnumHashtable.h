@@ -8,7 +8,7 @@
 enum class EnumHashtable {
     FIRST,
     PUSH_BACK,
-    HASH,
+    CLEAR,
     LAST
 };
 

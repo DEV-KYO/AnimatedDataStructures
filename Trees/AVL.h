@@ -15,6 +15,7 @@ template <typename T>
 class AVL {
 private:
     Node<T>* root;
+    void clear(Node<T>* node);
     int size;
 
     void inOrder(Node<T>* node, void(*f)(T&param));
@@ -22,9 +23,12 @@ private:
     void postOrder(Node<T>* node, void(*f)(T&param));
     void insert(Node<T>*& node, T data);
     void remove(Node<T>*& node, T data);
+    Node<T>* findMin(Node<T>* node);
 
 public:
     AVL();
+    // ~AVL();
+
     void inOrder(void(*f)(T&param));
     void preOrder(void(*f)(T&param));
     void postOrder(void(*f)(T&param));

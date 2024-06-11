@@ -13,6 +13,8 @@ template<typename T>
 class Heap {
 private:
     Node<T>* root;
+    void clear(Node<T>* node);
+
     std::vector<Node<T>*> nodes;
     int size;
     void siftUp(Node<T>* node);

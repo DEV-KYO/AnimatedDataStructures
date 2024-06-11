@@ -1,40 +1,38 @@
 # SFML TextBox
 ___
 
-#### Textbox Example
-![TextBox Example](https://raw.githubusercontent.com/DEV-KYO/textbox/a949ec8d86b1a931e7952e39701526e8de33b1ac/Assets/GIF/Textbox%20Input%20Video.gif?token=BBALMGSA5EQCJJCZWTWJL2DGK7JV2)
+This project is a data structures visualization tool built with SFML in C++. It includes visualizations for various data structures and algorithms, including linked lists, sorting algorithms, trees, and hash tables.
+
 ## Description 
-This project is a simple text box that can be used in a SFML application. 
-The text box is a class that can be used to create a text box in a SFML window.
-The text box can be used to get user input from the keyboard.
+The project is organized into several modules, each responsible for a specific feature:
+
+- `System`: This is the main class that handles events, updates the system, and draws the system.
+- `AnimateTrees`: This class is responsible for animating tree data structures.
+- `AnimatedLinkedList`: This class is responsible for animating linked list data structures.
+- `AnimatedSortAlg`: This class is responsible for animating sorting algorithms.
+- `AnimatedHashtable`: This class is responsible for animating hash table data structures.
+
+Each module includes various functionalities and can be interacted with through the user interface.
 
 ## Implemented Features
-```
-- Static Text Box (Non-Editable)
-- Has a border
-- Takes input from the keyboard
-- The text box will display the text that is being typed
-- Clicking on the text box will make it active
-- Clicking outside the text box will make it inactive
-- The text box will display a cursor when it is active
-- The cursor will blink
-- The cursor will move to the correct position when the text box is clicked
-- Undo functionality (Ctrl + Z)
-```
+- [x] Linked List
+- [x] Sorting Algorithms
+- [x] Trees
+- [x] Hash Tables
+- [x] Text Box
+- [x] Blinking Cursor
+- [x] Text Box that can be used to display text
+- [x] Displays all the data structures and algorithms in a window
+- [x] User can interact with the data structures and algorithms using the keyboard and mouse
+- [x] User can add, delete, and search for elements in the data structures
+- [x] Zoom in and out of the data structures
 
 ## Future Features
-```
-- Dynamic Text Box (Editable)
-- More customization options and modularity
-- More cursor options
-- Highlighting text
-- Copy and paste
-- Scrolling
-- Text wrapping
-- Text selection
-- Better undo functionality
-- Better cursor movement
-```
+- [ ] Graphs
+- [ ] Linear Interpolation
+- [ ] Zoom on specific points in the data structures
+- [ ] User can change the color of the data structures
+- [ ] 3D visualization of the data structures
 
 ## END
 

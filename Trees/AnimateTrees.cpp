@@ -7,8 +7,17 @@
 #include <cmath>
 
 AnimateTrees::AnimateTrees() {
-    bst = BST<CircleText>();
-    avl = AVL<CircleText>();
+
+    BSTButton = Button( "BST",
+                        sf::Vector2f(20, TEXT_BOX_Y +20));
+
+    AVLButton = Button( "AVL",
+                        sf::Vector2f(BSTButton.getGlobalBounds().left + BSTButton.getGlobalBounds().width + 20,
+                        TEXT_BOX_Y + 20));
+
+    HeapButton = Button("HEAP",
+                        sf::Vector2f(AVLButton.getGlobalBounds().left + AVLButton.getGlobalBounds().width + 20,
+                        TEXT_BOX_Y + 20));
 
     root = nullptr;
     data = std::vector<std::string>();
@@ -21,6 +30,17 @@ AnimateTrees::AnimateTrees() {
 
 AnimateTrees::AnimateTrees(Node<CircleText>* root) {
     this->root = root;
+    BSTButton = Button( "BST",
+                        sf::Vector2f(20, TEXT_BOX_Y +20));
+
+    AVLButton = Button( "AVL",
+                        sf::Vector2f(BSTButton.getGlobalBounds().width + 20,
+                        TEXT_BOX_Y + 20));
+
+    HeapButton = Button("HEAP",
+                        sf::Vector2f(AVLButton.getGlobalBounds().left + AVLButton.getGlobalBounds().width + 20,
+                        TEXT_BOX_Y + 20));
+
 }
 
 void AnimateTrees::selectTree(EnumTree type) {
@@ -28,29 +48,32 @@ void AnimateTrees::selectTree(EnumTree type) {
     switch(type) {
         case EnumTree::BST:
             bst.clear();
-            for (const auto& item : data) {
-                bst.insert(CircleText(item));
-            }
-            root = bst.getRoot();
+
+
+        for (const auto& item : data) {
+            bst.insert(CircleText(item));
+        }
+        root = bst.getRoot();
+
         break;
 
         case EnumTree::AVL:
-            avl.clear();
-            for(const auto& item : data) {
-                avl.insert(CircleText(item));
-            }
-            root = avl.getRoot();
-            break;
+        for(const auto& item : data) {
+            avl.insert(CircleText(item));
+        }
+        root = avl.getRoot();
+        break;
 
         case EnumTree::HEAP:
             heap.clear();
-            for(const auto& item : data) {
-                heap.push(CircleText(item));
-            }
-            root = heap.getRoot();
-            break;
+        for(const auto& item : data) {
+            heap.push(CircleText(item));
+        }
+        root = heap.getRoot();
+        break;
         default:
-            break;
+            std::cerr << "NO TREE SELECTED" << std::endl;
+        break;
     }
     setPosition();
 }
@@ -61,12 +84,33 @@ void AnimateTrees::update() {
 
 void AnimateTrees::eventHandler(sf::RenderWindow& window, sf::Event& event) {
     // Set the center of the view to the position of the mouse cursor
-    if (event.type == sf::Event::MouseWheelScrolled) {
-        if (event.mouseWheelScroll.delta > 0) {
-            zoom(0.9f);
-        } else {
-            zoom(1.1f);
-        }
+    switch(event.type) {
+        case sf::Event::MouseButtonPressed:
+            if (event.mouseButton.button == sf::Mouse::Left) {
+                sf::Vector2f mousePos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+
+                if(BSTButton.checkClick(mousePos))
+                    this->selectTree(EnumTree::BST);
+
+                if(AVLButton.checkClick(mousePos))
+                    this->selectTree(EnumTree::AVL);
+
+                if(HeapButton.checkClick(mousePos))
+                    this->selectTree(EnumTree::HEAP);
+            }
+            break;
+        case sf::Event::MouseWheelScrolled:
+            if (event.mouseWheelScroll.delta > 0) {
+                zoom(0.9f);
+            } else {
+                zoom(1.1f);
+            }
+            break;
+        case sf::Event::KeyPressed:
+            case sf::Keyboard::Return:
+                std::cout << "Return selecting tree type and setting pos" << std::endl;
+                this->selectTree(type);
+                break;
     }
 }
 
@@ -84,6 +128,10 @@ void AnimateTrees::zoom(float factor) {
 
 void AnimateTrees::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     //draw every node in the tree
+    BSTButton.draw(target);
+    AVLButton.draw(target);
+    HeapButton.draw(target);
+
     target.setView(view);
     drawNode(target, states, root);
 }
@@ -92,14 +140,6 @@ void AnimateTrees::drawNode(sf::RenderTarget& target, sf::RenderStates states, N
     if (node == nullptr) {
         return;
     }
-
-    // Draw the node's data
-    node->data.draw(target, states);
-
-    // Recursively draw the left and right children
-    drawNode(target, states, node->left);
-    drawNode(target, states, node->right);
-
 
     // Draw lines to the left and right children
     if (node->left != nullptr) {
@@ -114,6 +154,13 @@ void AnimateTrees::drawNode(sf::RenderTarget& target, sf::RenderStates states, N
         line[1].position = node->right->data.getPosition();
         target.draw(line, states);
     }
+
+    // Draw the node's data
+    node->data.draw(target, states);
+
+    // Recursively draw the left and right children
+    drawNode(target, states, node->left);
+    drawNode(target, states, node->right);
 }
 
 void AnimateTrees::setPositionRecursive(Node<CircleText>* node, int x, int y, int depth) {
@@ -181,4 +228,8 @@ void AnimateTrees::setRoot(Node<CircleText> *root) {
 
 Node<CircleText>* AnimateTrees::getRoot() const {
     return root;
+}
+
+EnumTree AnimateTrees::getType() const {
+    return type;
 }

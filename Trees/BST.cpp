@@ -12,6 +12,11 @@ template<typename T>
 BST<T>::BST() = default;
 
 template<typename T>
+BST<T>::~BST() {
+    clear();
+}
+
+template<typename T>
 void BST<T>::inOrder(void (*f)(T &param)) {
     inOrder(root, f);
 }
@@ -193,5 +198,17 @@ void BST<T>::clear() {
     }
 }
 
+template<typename T>
+void BST<T>::clear(Node<T>*& node) {
+    if (node == nullptr) {
+        return;
+    }
+
+    clear(node->left);
+    clear(node->right);
+
+    delete node;
+    node = nullptr;
+}
 
 #endif //BST_CPP

@@ -21,10 +21,12 @@
 #include "System/EnumSystem/EnumInputMode.h"
 #include "Trees/AnimateTrees.h"
 #include "Trees/EnumTree.h"
+#include "Trees/EnumTreeFunctions.h"
 
 
 class System {
 private:
+    sf::Text inputModeText; //text to display the mode of input
     float moveFactor; //factor to move the arrow
     TextBox textBox; //text box to display text
     std::vector<std::string> dataVector; //data to display
@@ -32,6 +34,7 @@ private:
     EnumInputMode inputMode; //mode of input
     EnumListFunctions listFunction; //function of the linked list
     EnumSortFunctions sortFunction; //function of the sorting algorithm
+    EnumTreeFunctions treeFunction; //function of the tree
     EnumTree treeType; //type of tree
     EnumHashtable hashFunction; //hash function
 
@@ -51,7 +54,7 @@ public:
     void handleTab(); //handle the tab key
     void handleUp(); //handle the up and down keys
     void handleDown(); //handle the up and down keys
-    void handleReturn(sf::RenderWindow &window); //handle the return key
+    void handleReturn(sf::RenderWindow &window, sf::Event& event); //handle the return key
 
 
     //functions to convert enum to string
@@ -60,6 +63,7 @@ public:
     static std::string enumToString(const EnumSortFunctions& sortFunction);
     static std::string enumToString(const EnumTree& treeType);
     static std::string enumToString(const EnumHashtable& hashFunction);
+    static std::string enumToString(const EnumTreeFunctions& treeFunction);
 
 
 };

@@ -8,9 +8,7 @@ Arrowshape::Arrowshape() {
 }
 
 Arrowshape::Arrowshape(const sf::Vector2f &size, Direction direction) : triangle(size.x * 1/6.0f,3), direction(direction)  {
-    // Constructor with size and direction
-    // /////////////////////////////////////////////////////////////////////
-    //                    --OUTLINE-- ERASE WHEN DONE                    //
+
     triangle.setFillColor(sf::Color(0,0,0));
     triangle.setOutlineColor(sf::Color({0,255,0}));
     triangle.setOutlineThickness(1.0f);
@@ -18,7 +16,6 @@ Arrowshape::Arrowshape(const sf::Vector2f &size, Direction direction) : triangle
     line.setFillColor(sf::Color(0,0,0));
     line.setOutlineColor(sf::Color({0,255,0}));
     line.setOutlineThickness(1.0f);
-    // /////////////////////////////////////////////////////////////////////
 
     //2 to 1 ratio for the head and body
     float radius = size.x * 1/6.0f;
@@ -42,9 +39,6 @@ Arrowshape::Arrowshape(const sf::Vector2f &size, Direction direction) : triangle
 
     arrowtip = getCenter(triangle);
     arrowbase = getCenter(line);
-    //position head to the right of body
-
-    //body centered to head
 
 
 

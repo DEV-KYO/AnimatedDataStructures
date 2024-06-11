@@ -5,6 +5,7 @@
 #include "CircleText.h"
 
 CircleText::CircleText() {
+    data = "NULL";
     circle.setPointCount(25);
     circle.setFillColor(sf::Color::Black);
     circle.setOutlineColor(sf::Color::White);
@@ -23,7 +24,9 @@ CircleText::CircleText() {
     number.setPosition(WINDOW_CENTER);
 }
 
+
 CircleText::CircleText(const std::string& data) {
+    this->data = data;
     circle.setPointCount(25);
     circle.setFillColor(sf::Color::Black);
     circle.setOutlineColor(sf::Color::White);

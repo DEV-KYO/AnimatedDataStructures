@@ -12,7 +12,7 @@
 #include "../../Font/FontManager.h"
 #include "../../Font/EnumFonts.h"
 
-class CircleText : public sf::Transformable {
+class CircleText {
 private:
     sf::Text number;
     sf::CircleShape circle;

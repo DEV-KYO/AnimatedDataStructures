@@ -56,12 +56,10 @@ NodeShape::NodeShape(const std::string& data) : data(data), text(sf::Text(data, 
     //intit body
     body = sf::RectangleShape(sf::Vector2f ({size.x/3,size.y}));
     body.setOrigin(sf::Vector2f ({nodeSize.x/6,nodeSize.y/2}));
-    // /////////////////////////////////////////////////////////////
-    //                  FOR TESTING                               //
     body.setFillColor(sf::Color(0,0,0));
     body.setOutlineColor(sf::Color({250,250,250}));
     body.setOutlineThickness(1.0f);
-    // /////////////////////////////////////////////////////////////
+
 
     //get values of box
     sf::FloatRect b = body.getLocalBounds();
@@ -107,12 +105,11 @@ NodeShape::NodeShape(const sf::Vector2f &size, const std::string& data) {
     body.setOrigin(sf::Vector2f ({nodeSize.x/6,nodeSize.y/2}));
 
 
-    // /////////////////////////////////////////////////////////////
-    //                  FOR TESTING                               //
+
     body.setFillColor(sf::Color(0,0,0,0));
     body.setOutlineColor(sf::Color({250,250,250}));
     body.setOutlineThickness(1.0f);
-    // /////////////////////////////////////////////////////////////
+
 
     //get values of box
     sf::FloatRect b = body.getLocalBounds();
